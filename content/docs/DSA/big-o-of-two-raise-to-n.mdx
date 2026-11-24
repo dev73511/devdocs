@@ -1,0 +1,111 @@
+---
+title: O(2^n) — Exponential Time
+description: O(2^n), pronounced "Big O of 2 raised to n", represents Exponential Time complexity where the number of operations doubles with each additional input element.
+---
+
+## What is O(2^n)?
+
+**O(2^n)**, pronounced **"Big O of 2 to the power of n"** (or **"2 raised to n"**), represents **Exponential Time** complexity.
+
+In an O(2^n) algorithm, the growth rate **doubles with each addition to the input dataset**. 
+
+- If `n = 1`: **2 operations** (2^1)
+- If `n = 2`: **4 operations** (2^2)
+- If `n = 3`: **8 operations** (2^3)
+- If `n = 10`: **1,024 operations** (2^10)
+- If `n = 20`: **1,048,576 operations** (over 1 million operations!)
+- If `n = 30`: **1,073,741,824 operations** (over 1 billion operations!)
+- If `n = 50`: **1,125,899,906,842,624 operations** (over 1 quadrillion operations!)
+
+Because the growth shoots nearly vertically upward, exponential algorithms are **not scalable at all** and rapidly become impractical even for small inputs.
+
+---
+
+## Exponential vs. Logarithmic: The Opposites
+
+Exponential growth is the direct opposite of logarithmic growth:
+
+- **Logarithmic — O(log n)**:
+  As the input size increases, the curve **flattens out**. It becomes more efficient as data grows.
+- **Exponential — O(2^n)**:
+  As the input size increases, the curve **explodes upward**. It becomes drastically slower with every single extra item added.
+
+---
+
+## Classic Example: Naive Recursive Fibonacci
+
+A well-known example of an O(2^n) algorithm is the naive recursive calculation of the Fibonacci sequence:
+
+<Tabs items={['JavaScript', 'Java']}>
+    <Tab value="JavaScript">
+
+    ```javascript
+    // O(2^n) - Exponential Time
+    function fibonacci(n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        // Each call branches into two recursive calls
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+    ```
+
+    </Tab>
+
+    <Tab value="Java">
+
+    ```java
+    public class Main {
+        // O(2^n) - Exponential Time
+        public static int fibonacci(int n) {
+            if (n <= 1) {
+                return n;
+            }
+
+            // Each call branches into two recursive calls
+            return fibonacci(n - 1) + fibonacci(n - 2);
+        }
+    }
+    ```
+
+    </Tab>
+   
+</Tabs>
+
+### Why Does This Run in O(2^n)?
+1. For each function call, the function makes **two more function calls**: `fibonacci(n - 1)` and `fibonacci(n - 2)`.
+2. This creates a binary tree of recursive execution calls:
+   - Level 0: 1 call
+   - Level 1: 2 calls
+   - Level 2: 4 calls
+   - Level 3: 8 calls
+   - Level k: 2^k calls
+3. The total number of calls across all levels sums up to approximately `2^n`.
+4. Even for a modest number like `n = 45`, this calculation will freeze or lag a typical computer for seconds to minutes because it triggers billions of calls.
+
+---
+
+## Big O Runtime Comparison (The 5 Fundamental Curves)
+
+The five foundational Big O growth rates seen across data structures and algorithms:
+
+| Complexity | Name | Performance | Growth Behavior |
+| :--- | :--- | :--- | :--- |
+| **O(1)** | Constant Time | Ideal / Best | Completely flat line; unaffected by input size. |
+| **O(n)** | Linear Time | Fair / Good | Straight diagonal line; operations grow 1-to-1 with input. |
+| **O(n^2)** | Quadratic Time | Poor | Upward parabola; nested loops over the data. |
+| **O(log n)** | Logarithmic Time | Excellent | Slowly rises then flattens; halfs problem space each step. |
+| **O(2^n)** | Exponential Time | Horrible / Worst | Nearly vertical rocket; operations double with every +1 input. |
+
+---
+
+## Summary Checklist
+
+| Metric | Details |
+| :--- | :--- |
+| **Complexity** | O(2^n) (Exponential Time) |
+| **Growth Rate** | Almost vertical exponential explosion |
+| **Doubling Rule** | Adding just 1 element to `n` doubles the total execution steps |
+| **Scalability** | Not scalable; crashes or hangs on moderately large inputs |
+| **Common Examples** | Naive recursive Fibonacci, power set (generating all subsets), brute-force password cracking |
