@@ -1,21 +1,21 @@
 ---
 title: O(1) - Constant Time
-description: O(1) — Constant Time, pronounced "Big O of 1", represents Constant Time complexity.
+description: O(1) - Constant Time, pronounced "Big O of 1", represents Constant Time complexity where an algorithm takes a constant amount of time regardless of input size.
 ---
 
 ##
 
 ### What is O(1)?
 
-**O(1)**, pronounced **"Big O of 1"**, represents **Constant Time** complexity. 
+**O(1)**, pronounced **"Big O of 1"**, represents **Constant Time** complexity.
 
 An algorithm is considered O(1) when its execution time **does not depend on the size of the input dataset**. Regardless of whether the input has 1 item, 100 items, or 1,000,000 items, the algorithm will always take the same amount of time/steps to execute.
 
 ---
 
-### Example 1: Accessing an Element by Index
+### Example 1: Accessing the First Item
 
-Here is how constant time lookup looks:
+Here is our first example:
 
 <Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
@@ -41,62 +41,59 @@ Here is how constant time lookup looks:
     </Tab>
 </Tabs>
 
-#### How it works:
-- This methods take an array of numbers and print the first item (`numbers[0]`) to the console.
-- **Input Size Independence**:
-  - If `numbers` has **1 item**: it prints the first item -> 1 operation.
-  - If `numbers` has **1,000,000 items**: it still only prints the first item -> 1 operation.
-- Aaccessing an element at a specific index (`numbers[0]`) is done via direct memory address lookup in a single step.
-- Because it performs a single constant operation regardless of the array's size, its runtime complexity is **O(1)**.
+### How it works:
+- This method takes an array of numbers and prints the first item on the console.
+- It doesn't matter how big the array is: we can have an array with 1 or 1 million items. All we are doing here is printing the first item.
+- So this method has a single operation and takes a constant amount of time to run.
 
 ---
 
-### Why Not Measure Real-World Time (Milliseconds)?
+### Why Not Measure Execution Time in Milliseconds?
 
-When analyzing algorithm performance, we don't worry about exact time in milliseconds because:
-1. That can be different from one machine to another or even on the same machine.
+We don't care about the exact execution time in milliseconds, because that can be different from one machine to another, or even on the same machine.
 
-All we care about that this method runs in constant time and we represent in **O(1)**.
+All we care about is that this method runs in constant time, and we represent it using **O(1)**. This is the runtime complexity of this method.
+
+So in this example, the size of our input doesn't matter: this method will always run in constant time, or `O(1)`.
 
 ---
 
-### Example 2: Multiple Operations and Dropping Constants
+### Example 2: Duplicating Operations (Dropping Constants)
 
-What happens if we duplicate the print statement?
+Now, what if we duplicate this line?
 
 <Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
 
     ```javascript
     function log(numbers) {
-        console.log(numbers[0]);
-        console.log(numbers[0]);
+        // O(2) -> O(1)
+        console.log(numbers[0]); // O(1)
+        console.log(numbers[0]); // O(1)
     }
     ```
-    </Tab>
 
+    </Tab>
     <Tab value="Java">
 
     ```java
     public class Main {
         public void log(int[] numbers) {
-            System.out.println(numbers[0]);
-            System.out.println(numbers[0]);
+            // O(2) -> O(1)
+            System.out.println(numbers[0]); // O(1)
+            System.out.println(numbers[0]); // O(1)
         }
     }
     ```
+
     </Tab>
 </Tabs>
 
-#### Why O(2) Simplifies to O(1):
-- In this method, there are now two constant-time operations. One might say the complexity is O(2).
-- However, Big O notation is concerned with **scalability**, not the exact count of instructions:
-  - If the array has 1 item, it runs 2 operations.
-  - If the array has 1,000,000 items, it still runs 2 operations.
-- The execution time remains flat and does not grow when the input size **n** increases.
-- Therefore, we **drop the constant** and simplify O(2) down to **O(1)**.
-
-> **Rule of Thumb**: In Big O notation, constant coefficients are ignored. O(1), O(2), and O(100) all represent the same complexity: **O(1) (Constant Time)**.
+### Why O(2) Simplifies to O(1):
+- Here we have two operations. Both of these operations run in constant time, so technically the runtime complexity is `O(2)`.
+- But when talking about runtime complexity, we don't really care about the number of operations. We just want to know how much an algorithm slows down as the input grows larger.
+- In this example, whether we have 1 or 1 million items, our method still runs in constant time.
+- So we simplify this by writing down **O(1)**, meaning constant time.
 
 ---
 
@@ -105,8 +102,7 @@ What happens if we duplicate the print statement?
 | Metric | Details |
 | :--- | :--- |
 | **Complexity** | O(1) (Constant Time) |
-| **Growth Rate** | Flat horizontal line (time does not grow with **n**) |
-| **Scalability** | Extremely scalable (the ideal complexity) |
-| **Common Examples** | Accessing an array by index (`arr[0]`), pushing/popping from a stack, checking an item in a hash-map/object (average case) |
-
-
+| **Growth Rate** | Flat horizontal line (does not slow down as input size grows) |
+| **Rule** | Drop constant counts (O(2) simplifies to O(1)) |
+| **Scalability** | Ideal / Best scalability |
+| **Common Examples** | Accessing an array item by index (`numbers[0]`), pushing/popping from a stack, hash table lookup |
