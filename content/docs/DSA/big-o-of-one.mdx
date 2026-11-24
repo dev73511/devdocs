@@ -15,7 +15,7 @@ An algorithm is considered O(1) when its execution time **does not depend on the
 
 ### Example 1: Accessing an Element by Index
 
-Here is how constant time lookup looks in both Java and JavaScript:
+Here is how constant time lookup looks:
 
 <Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
@@ -44,20 +44,19 @@ Here is how constant time lookup looks in both Java and JavaScript:
 #### How it works:
 - This methods take an array of numbers and print the first item (`numbers[0]`) to the console.
 - **Input Size Independence**:
-  - If `numbers` has **1 item**: it prints the item -> 1 operation.
+  - If `numbers` has **1 item**: it prints the first item -> 1 operation.
   - If `numbers` has **1,000,000 items**: it still only prints the first item -> 1 operation.
-- In both languages, accessing an element at a specific index (`numbers[0]`) is done via direct memory address lookup in a single step.
+- Aaccessing an element at a specific index (`numbers[0]`) is done via direct memory address lookup in a single step.
 - Because it performs a single constant operation regardless of the array's size, its runtime complexity is **O(1)**.
 
 ---
 
 ### Why Not Measure Real-World Time (Milliseconds)?
 
-When analyzing algorithm performance, we do not measure exact wall-clock time (e.g., milliseconds or seconds) because:
-1. **Hardware differences**: A faster machine with a modern CPU and faster memory will run the code quicker than an older machine.
-2. **Environmental variables**: Even on the exact same machine, background processes, operating system scheduling, and available memory cause execution time to fluctuate.
+When analyzing algorithm performance, we don't worry about exact time in milliseconds because:
+1. That can be different from one machine to another or even on the same machine.
 
-Instead, Big O focuses on the **growth rate**: *How does the number of operations grow as the input size (n) increases?*
+All we care about that this method runs in constant time and we represent in **O(1)**.
 
 ---
 
