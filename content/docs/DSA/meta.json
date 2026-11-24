@@ -4,6 +4,9 @@
   "pages": [
         "what-is-big-o", 
         "big-o-of-one",
-        "big-o-of-n"
+        "big-o-of-n",
+        "big-o-of-n-square",
+        "big-o-of-log-n",
+        "big-o-of-two-raise-to-n"
     ]
 }
