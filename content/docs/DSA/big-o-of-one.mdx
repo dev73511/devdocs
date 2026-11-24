@@ -1,0 +1,113 @@
+---
+title: O(1) - Constant Time
+description: O(1) — Constant Time, pronounced "Big O of 1", represents Constant Time complexity.
+---
+
+##
+
+### What is O(1)?
+
+**O(1)**, pronounced **"Big O of 1"**, represents **Constant Time** complexity. 
+
+An algorithm is considered O(1) when its execution time **does not depend on the size of the input dataset**. Regardless of whether the input has 1 item, 100 items, or 1,000,000 items, the algorithm will always take the same amount of time/steps to execute.
+
+---
+
+### Example 1: Accessing an Element by Index
+
+Here is how constant time lookup looks in both Java and JavaScript:
+
+<Tabs items={['JavaScript', 'Java']}>
+    <Tab value="JavaScript">
+
+    ```javascript
+    function log(numbers) {
+        // O(1)
+        console.log(numbers[0]);
+    }
+    ```
+
+    </Tab>
+
+    <Tab value="Java">
+    ```java
+    public class Main {
+        public void log(int[] numbers) {
+            // O(1)
+            System.out.println(numbers[0]);
+        }
+    }
+    ```
+    </Tab>
+</Tabs>
+
+#### How it works:
+- This methods take an array of numbers and print the first item (`numbers[0]`) to the console.
+- **Input Size Independence**:
+  - If `numbers` has **1 item**: it prints the item -> 1 operation.
+  - If `numbers` has **1,000,000 items**: it still only prints the first item -> 1 operation.
+- In both languages, accessing an element at a specific index (`numbers[0]`) is done via direct memory address lookup in a single step.
+- Because it performs a single constant operation regardless of the array's size, its runtime complexity is **O(1)**.
+
+---
+
+### Why Not Measure Real-World Time (Milliseconds)?
+
+When analyzing algorithm performance, we do not measure exact wall-clock time (e.g., milliseconds or seconds) because:
+1. **Hardware differences**: A faster machine with a modern CPU and faster memory will run the code quicker than an older machine.
+2. **Environmental variables**: Even on the exact same machine, background processes, operating system scheduling, and available memory cause execution time to fluctuate.
+
+Instead, Big O focuses on the **growth rate**: *How does the number of operations grow as the input size (n) increases?*
+
+---
+
+### Example 2: Multiple Operations and Dropping Constants
+
+What happens if we duplicate the print statement?
+
+<Tabs items={['JavaScript', 'Java']}>
+    <Tab value="JavaScript">
+
+    ```javascript
+    function log(numbers) {
+        console.log(numbers[0]);
+        console.log(numbers[0]);
+    }
+    ```
+    </Tab>
+
+    <Tab value="Java">
+
+    ```java
+    public class Main {
+        public void log(int[] numbers) {
+            System.out.println(numbers[0]);
+            System.out.println(numbers[0]);
+        }
+    }
+    ```
+    </Tab>
+</Tabs>
+
+#### Why O(2) Simplifies to O(1):
+- In this method, there are now two constant-time operations. One might say the complexity is O(2).
+- However, Big O notation is concerned with **scalability**, not the exact count of instructions:
+  - If the array has 1 item, it runs 2 operations.
+  - If the array has 1,000,000 items, it still runs 2 operations.
+- The execution time remains flat and does not grow when the input size **n** increases.
+- Therefore, we **drop the constant** and simplify O(2) down to **O(1)**.
+
+> **Rule of Thumb**: In Big O notation, constant coefficients are ignored. O(1), O(2), and O(100) all represent the same complexity: **O(1) (Constant Time)**.
+
+---
+
+### Summary Checklist
+
+| Metric | Details |
+| :--- | :--- |
+| **Complexity** | O(1) (Constant Time) |
+| **Growth Rate** | Flat horizontal line (time does not grow with **n**) |
+| **Scalability** | Extremely scalable (the ideal complexity) |
+| **Common Examples** | Accessing an array by index (`arr[0]`), pushing/popping from a stack, checking an item in a hash-map/object (average case) |
+
+
