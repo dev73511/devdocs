@@ -1,6 +1,6 @@
 ---
 title: O(2^n) — Exponential Time
-description: O(2^n), pronounced "Big O of 2 raised to n", represents Exponential Time complexity where the number of operations doubles with each additional input element.
+description: O(2^n), pronounced "Big O of 2 raised to n", represents Exponential Time complexity where the algorithm grows faster and faster as the input size grows.
 ---
 
 ## What is O(2^n)?
@@ -21,27 +21,44 @@ Because the growth shoots nearly vertically upward, exponential algorithms are *
 
 ---
 
-## Exponential vs. Logarithmic: The Opposites
+## Exponential Growth vs. Logarithmic Growth
 
-Exponential growth is the direct opposite of logarithmic growth:
+Exponential growth is the **opposite of logarithmic growth**:
 
-- **Logarithmic — O(log n)**:
-  As the input size increases, the curve **flattens out**. It becomes more efficient as data grows.
-- **Exponential — O(2^n)**:
-  As the input size increases, the curve **explodes upward**. It becomes drastically slower with every single extra item added.
+- The **logarithmic curve** (`O(log n)`) slows down as the input size grows.
+- The **exponential curve** (`O(2^n)`) grows **faster and faster**.
+
+An algorithm that runs in exponential time is **not scalable at all**. It will become very slow very soon.
 
 ---
 
-## Classic Example: Naive Recursive Fibonacci
+## Example: Recursive Fibonacci
 
-A well-known example of an O(2^n) algorithm is the naive recursive calculation of the Fibonacci sequence:
+A common example of an algorithm that runs in exponential time is the recursive calculation of Fibonacci numbers:
 
 <Tabs items={['JavaScript', 'Java']}>
-    <Tab value="JavaScript">
+<Tab value="JavaScript">
 
-    ```javascript
+```javascript
+// O(2^n) - Exponential Time
+function fibonacci(n) {
+    if (n <= 1) {
+        return n;
+    }
+
+    // Each call branches into two more calls
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+```
+
+</Tab>
+
+<Tab value="Java">
+
+```java
+public class Main {
     // O(2^n) - Exponential Time
-    function fibonacci(n) {
+    public static int fibonacci(int n) {
         if (n <= 1) {
             return n;
         }
@@ -49,54 +66,31 @@ A well-known example of an O(2^n) algorithm is the naive recursive calculation o
         // Each call branches into two recursive calls
         return fibonacci(n - 1) + fibonacci(n - 2);
     }
-    ```
+}
+```
 
-    </Tab>
+</Tab>
 
-    <Tab value="Java">
-
-    ```java
-    public class Main {
-        // O(2^n) - Exponential Time
-        public static int fibonacci(int n) {
-            if (n <= 1) {
-                return n;
-            }
-
-            // Each call branches into two recursive calls
-            return fibonacci(n - 1) + fibonacci(n - 2);
-        }
-    }
-    ```
-
-    </Tab>
-   
 </Tabs>
 
-### Why Does This Run in O(2^n)?
-1. For each function call, the function makes **two more function calls**: `fibonacci(n - 1)` and `fibonacci(n - 2)`.
-2. This creates a binary tree of recursive execution calls:
-   - Level 0: 1 call
-   - Level 1: 2 calls
-   - Level 2: 4 calls
-   - Level 3: 8 calls
-   - Level k: 2^k calls
-3. The total number of calls across all levels sums up to approximately `2^n`.
-4. Even for a modest number like `n = 45`, this calculation will freeze or lag a typical computer for seconds to minutes because it triggers billions of calls.
+### Why it runs in O(2^n):
+- Each call branches into **two more recursive calls**: `fibonacci(n - 1)` and `fibonacci(n - 2)`.
+- With each step the input increases, the total number of operations roughly **doubles**.
+- Because operations double with each addition to `n`, it quickly triggers millions or billions of function calls for even modest values of `n`.
 
 ---
 
-## Big O Runtime Comparison (The 5 Fundamental Curves)
+## The 5 Fundamental Big O Curves
 
-The five foundational Big O growth rates seen across data structures and algorithms:
+These five growth rates we have covered are the ones you will see most of the time across data structures and algorithms:
 
 | Complexity | Name | Performance | Growth Behavior |
 | :--- | :--- | :--- | :--- |
-| **O(1)** | Constant Time | Ideal / Best | Completely flat line; unaffected by input size. |
-| **O(n)** | Linear Time | Fair / Good | Straight diagonal line; operations grow 1-to-1 with input. |
-| **O(n^2)** | Quadratic Time | Poor | Upward parabola; nested loops over the data. |
-| **O(log n)** | Logarithmic Time | Excellent | Slowly rises then flattens; halfs problem space each step. |
-| **O(2^n)** | Exponential Time | Horrible / Worst | Nearly vertical rocket; operations double with every +1 input. |
+| **O(1)** | Constant Time | Ideal / Best | Runs in constant time; unaffected by input size. |
+| **O(n)** | Linear Time | Fair / Good | Grows at the same steady rate in direct proportion to input size. |
+| **O(n^2)** | Quadratic Time | Poor | Curves upward; gets slower as input size grows. |
+| **O(log n)** | Logarithmic Time | Excellent | Slows down and flattens out as input size grows. |
+| **O(2^n)** | Exponential Time | Horrible / Worst | The opposite of logarithmic; grows faster and faster and is not scalable at all. |
 
 ---
 
@@ -105,7 +99,7 @@ The five foundational Big O growth rates seen across data structures and algorit
 | Metric | Details |
 | :--- | :--- |
 | **Complexity** | O(2^n) (Exponential Time) |
-| **Growth Rate** | Almost vertical exponential explosion |
-| **Doubling Rule** | Adding just 1 element to `n` doubles the total execution steps |
-| **Scalability** | Not scalable; crashes or hangs on moderately large inputs |
-| **Common Examples** | Naive recursive Fibonacci, power set (generating all subsets), brute-force password cracking |
+| **Growth Rate** | Shoots straight up; grows faster and faster with every input added |
+| **Relationship** | The direct opposite of logarithmic growth |
+| **Scalability** | Not scalable at all (becomes very slow very soon) |
+| **Common Examples** | Naive recursive algorithms, calculating permutations or subsets, brute-force search |
