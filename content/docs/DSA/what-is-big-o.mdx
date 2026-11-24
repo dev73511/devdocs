@@ -2,3 +2,23 @@
 title: What is Big O?
 description: We use Big O to describe the performance of an algorithm, and this helps us determine if a given algorithm is scalable or not. Which basically means is an algorithm going to scale well or not as the input size grows really large.
 ---
+
+##
+
+<div className="rounded-lg bg-radial-[at_bottom] from-blue-500/20 p-4 m-0 border bg-origin-border border-fd-primary/10 prose-no-margin dark:bg-black/20">
+![Big O Runtime Comparison Curves](/dsa/big-o-curves.jpg)
+</div>
+
+## Big O Runtime Comparison (The 5 Fundamental Curves)
+
+The five foundational Big O growth rates seen across data structures and algorithms:
+
+| Complexity | Name | Performance | Growth Behavior |
+| :--- | :--- | :--- | :--- |
+| **O(1)** | Constant Time | Ideal / Best | Completely flat line; unaffected by input size. |
+| **O(log n)** | Logarithmic Time | Excellent | Slowly rises then flattens; halves problem space each step. |
+| **O(n)** | Linear Time | Fair / Good | Straight diagonal line; operations grow 1-to-1 with input. |
+| **O(n^2)** | Quadratic Time | Poor | Upward parabola; nested loops over the data. |
+| **O(2^n)** | Exponential Time | Horrible / Worst | Nearly vertical rocket; operations double with every +1 input. |
+
+---
