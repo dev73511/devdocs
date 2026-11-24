@@ -1,7 +1,9 @@
 ---
 title: O(log n) — Logarithmic Time
-description: O(log n), pronounced "Big O of log n", represents Logarithmic Time complexity where the algorithm repeatedly reduces the remaining work by half.
+description: O(log n), pronounced "Big O of log n", represents Logarithmic Time complexity where an algorithm reduces its work by half in every step.
 ---
+
+##
 
 ## What is O(log n)?
 
@@ -13,88 +15,118 @@ An Algorithms that runs in logarithmic time complexity is **more efficient and m
 
 ---
 
-## The Core Concept: Dividing the Work in Half
+## Logarithmic vs. Linear Curve
 
-You encounter logarithmic time whenever an algorithm **reduces the remaining problem space by half in every single step**.
+If you compare the logarithmic curve with the linear curve:
+- The **linear curve** grows at the same steady rate.
+- The **logarithmic curve** slows down at some point and flattens out.
 
-Instead of examining every individual item one by one, the algorithm makes a comparison and immediately throws away half of the remaining elements.
+So an algorithm that runs in logarithmic time is **more efficient and more scalable** than an algorithm that runs in linear or quadratic time.
 
 ---
 
-## Comparing Linear Search vs. Binary Search
+## Real Example: Searching in a Sorted Array
 
-Imagine we have a **sorted array** of numbers from 1 to 10, and we want to find the number **10**:
+Let's say we have an array of sorted numbers from 1 to 10, and we want to find the number **10**:
 
 ```
 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 ```
 
 ### Approach 1: Linear Search — O(n)
-- Starts from the beginning of the array and checks each cell one by one:
+- One way to find 10 is to iterate over this array using a `for` loop, going forward until we find 10:
   `1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10`
-- In the worst case (the target is at the end or absent), we must inspect every single element.
-- For an array of **1,000,000 items**, it takes up to **1,000,000 comparisons**.
-- Runtime scales in direct proportion to input size: **O(n)**.
+- This is called **linear search**, because it runs in linear time.
+- In the worst case scenario, if the number we are looking for is at the end of our array, we have to inspect every cell in this array to find the target number.
+- The more items we have, the longer this operation takes.
+- So the runtime of this algorithm increases linearly and in direct proportion to the size of our array: **O(n)**.
 
 ### Approach 2: Binary Search — O(log n)
-Because the array is already sorted, we can search much smarter:
+We have another searching algorithm called **binary search**, which runs in logarithmic time. It is much faster than linear search:
 
-1. **Step 1**: Look at the middle element (`5`).
-   - Is `5` equal to our target `10`? No, `5` is smaller.
-   - Because the array is sorted, we know `10` must be located to the right.
-   - We immediately eliminate the entire left half (`[1, 2, 3, 4, 5]`) without checking any of them!
-2. **Step 2**: Look at the middle element of the remaining right half (`8`).
-   - Is `8` equal to `10`? No, `8` is smaller.
-   - We eliminate everything to the left of `8`.
-3. **Step 3**: Focus only on the remaining items (`[9, 10]`) and locate `10`.
+1. **Step 1**: Assuming that our array is sorted, we start off by looking at the middle item (`5`).
+   - Is this item smaller or greater than the value we are looking for?
+   - It's smaller, so our target number (`10`) must be in the right partition of this array.
+   - So we don't need to inspect any of the items in the left partition. With this, we narrow down our search by half.
+2. **Step 2**: In the right partition, again we look at the middle item (`8`).
+   - Is it smaller or greater than the target value?
+   - It's smaller, so again we ignore the items on the left and focus on the items on the right.
+3. **Step 3**: In every step, we are essentially narrowing down our search by half.
 
-With every comparison, the remaining search area is cut in half.
+With this algorithm, if we have **1 million items** in our array, we can find the target item with a **maximum of 19 comparisons**. We don't have to inspect every item in our array.
+
+This is logarithmic time in action.
 
 ---
 
-## The Incredible Power of Logarithmic Scaling
+## The Core Concept: Reducing Work by Half
 
-Notice how dramatically O(log n) outperforms O(n) as the input size grows:
+We have logarithmic growth in algorithms where we **reduce our work by half in every step**.
 
-| Input Size (n) | Linear Search: O(n) Maximum Comparisons | Binary Search: O(log n) Maximum Comparisons |
-| :--- | :--- | :--- |
-| **10** | 10 comparisons | ~4 comparisons |
-| **100** | 100 comparisons | ~7 comparisons |
-| **1,000** | 1,000 comparisons | ~10 comparisons |
-| **1,000,000** (1 Million) | 1,000,000 comparisons | **Only ~20 comparisons!** |
-| **1,000,000,000** (1 Billion) | 1,000,000,000 comparisons | **Only ~30 comparisons!** |
-
-For 1 million elements, Binary Search needs at most **20 comparisons** compared to 1 million in Linear Search.
+You will see this a lot in data structures like trees (such as Binary Search Trees) and graphs.
 
 ---
 
 ## Code Example: Binary Search in Action
 
-Here is how Binary Search is implemented in both Java and JavaScript:
+Here is how Binary Search is implemented in JavaScript and Java:
 
 <Tabs items={['JavaScript', 'Java']}>
-    
-    <Tab value="JavaScript">
 
-    ```javascript
-    function binarySearch(numbers, target) {
-        let left = 0;
-        let right = numbers.length - 1;
+<Tab value="JavaScript">
+
+```javascript
+function binarySearch(numbers, target) {
+    let left = 0;
+    let right = numbers.length - 1;
+
+    while (left <= right) {
+        // Find the middle index
+        const middle = Math.floor(left + (right - left) / 2);
+
+        // Target found
+        if (numbers[middle] === target) {
+            return middle;
+        }
+
+            // If target is greater, discard the left half
+        if (numbers[middle] < target) {
+            left = middle + 1;
+        } 
+            // If target is smaller, discard the right half
+        else {
+            right = middle - 1;
+        }
+    }
+
+    return -1; // Target not found
+}
+```
+
+</Tab>
+
+<Tab value="Java">
+
+```java
+public class Main {
+    public static int binarySearch(int[] numbers, int target) {
+        int left = 0;
+        int right = numbers.length - 1;
 
         while (left <= right) {
             // Find the middle index
-            const middle = Math.floor(left + (right - left) / 2);
+            int middle = left + (right - left) / 2;
 
             // Target found
-            if (numbers[middle] === target) {
+            if (numbers[middle] == target) {
                 return middle;
             }
 
-            // If target is greater, discard the left half
+                // If target is greater, discard the left half
             if (numbers[middle] < target) {
                 left = middle + 1;
             } 
-            // If target is smaller, discard the right half
+                // If target is smaller, discard the right half
             else {
                 right = middle - 1;
             }
@@ -102,56 +134,13 @@ Here is how Binary Search is implemented in both Java and JavaScript:
 
         return -1; // Target not found
     }
-    ```
+}
+```
 
-    </Tab>
-
-    <Tab value="Java">
-
-    ```java
-    public class Main {
-        public static int binarySearch(int[] numbers, int target) {
-            int left = 0;
-            int right = numbers.length - 1;
-
-            while (left <= right) {
-                // Find the middle index
-                int middle = left + (right - left) / 2;
-
-                // Target found
-                if (numbers[middle] == target) {
-                    return middle;
-                }
-
-                // If target is greater, discard the left half
-                if (numbers[middle] < target) {
-                    left = middle + 1;
-                } 
-                // If target is smaller, discard the right half
-                else {
-                    right = middle - 1;
-                }
-            }
-
-            return -1; // Target not found
-        }
-    }
-    ```
-
-    </Tab>
+</Tab>
 </Tabs>
 
-### Prerequisite for Binary Search
-Binary Search requires the data to be **already sorted**. If the data is unsorted, you must either sort it first or use a linear search.
-
----
-
-## Where Will You Encounter O(log n)?
-
-You will see logarithmic complexity frequently in:
-1. **Binary Search**: Searching sorted arrays.
-2. **Binary Search Trees (BST)**: Searching, inserting, and deleting nodes in a balanced tree.
-3. **Divide and Conquer Algorithms**: Algorithms that recursively split inputs in halves.
+> **Note**: Binary search requires the array to be **sorted**.
 
 ---
 
@@ -160,7 +149,7 @@ You will see logarithmic complexity frequently in:
 | Metric | Details |
 | :--- | :--- |
 | **Complexity** | O(log n) (Logarithmic Time) |
-| **Growth Rate** | Flattens out almost horizontally as `n` grows large |
-| **Core Mechanism** | Halfs the remaining work/data at each step |
-| **Scalability** | Extremely high (ideal for massive datasets) |
-| **Common Examples** | Binary search, operations on balanced binary search trees |
+| **Growth Rate** | Flattens out and slows down as `n` gets larger |
+| **Core Mechanism** | Narrows down search / reduces work by half in every step |
+| **Scalability** | Extremely scalable (1 million items takes at most 19 comparisons) |
+| **Common Examples** | Binary search on sorted arrays, operations on balanced search trees |

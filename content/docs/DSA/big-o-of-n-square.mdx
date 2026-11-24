@@ -18,76 +18,72 @@ Because the growth curve climbs steeply, O(n^2) algorithms become very slow as t
 
 ---
 
-## 1. Nested Loops Example (Printing All Pairs)
+## 1. Nested Loops Example (Printing All Combinations)
 
-The classic example of O(n^2) is a nested loop where an outer loop and an inner loop both iterate over the same array:
+Simple loops run in linear time or `O(n)`. But here we have nested loops, which is the algorithm we use for printing all combinations of items in an array:
 
 <Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
-        ```javascript
-        function log(numbers) {
-            // Outer loop: O(n)
-            for (const first of numbers) {
-                // Inner loop: O(n)
-                for (const second of numbers) {
-                    console.log(first + ", " + second);
-                }
+    ```javascript
+    function log(numbers) {
+        // O(n^2)
+        for (const first of numbers) { // O(n)
+            for (const second of numbers) { // O(n)
+                console.log(first + ", " + second);
             }
         }
-        ```
+    }
+    ```
     </Tab>
     <Tab value="Java">
-        ```java
-        public class Main {
-            public void log(int[] numbers) {
-                // Outer loop: O(n)
-                for (int first : numbers) {
-                    // Inner loop: O(n)
-                    for (int second : numbers) {
-                        System.out.println(first + ", " + second);
-                    }
+    ```java
+    public class Main {
+        public void log(int[] numbers) {
+            // O(n^2)
+            for (int first : numbers) { // O(n)
+                for (int second : numbers) { // O(n)
+                    System.out.println(first + ", " + second);
                 }
             }
         }
-        ```
+    }
+    ```
     </Tab>
 </Tabs>
 
 ### How it works:
-1. **Outer loop** runs `n` times (once for every element in `numbers`).
-2. **Inner loop** also runs `n` times for **every single iteration** of the outer loop.
-3. Total number of operations:
-   `n * n = n^2`
-4. Therefore, the runtime complexity is **O(n^2)**.
+- In our outer loop, we are iterating over our input array, which is **O(n)**.
+- In each iteration, we are once again iterating over all the items in this array, which is another **O(n)**.
+- So the runtime complexity of this method is `O(n * n)` or **O(n^2)**.
+- We say this algorithm runs in **quadratic time**.
 
 ---
 
 ## 2. Comparing O(n^2) with O(n)
 
-- **Small Inputs (e.g., 50 items)**:
-  For small datasets, modern CPUs are so fast that the difference between an O(n) and an O(n^2) algorithm is barely perceptible.
-- **Large Inputs**:
-  As the input dataset grows larger, O(n^2) algorithms curve upwards steeply and slow down drastically compared to linear O(n) algorithms.
+Algorithms that run in `O(n^2)` get slower than algorithms that run in `O(n)`:
+- If you are dealing with a small array of, let's say, **50 items**, you are not going to see any differences.
+- But as our input grows larger and larger, algorithms that run in `O(n^2)` get **slower and slower**.
 
 ---
 
-## 3. Dropping Non-Dominant Terms (O(n + n^2) → O(n^2))
+## 3. Adding a Loop Before or After (Dropping Non-Dominant Terms)
 
-What if a method has an independent single loop followed by a nested loop?
+Now, what if we had another loop before or after this nested loop?
 
 <Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
 
     ```javascript
     function log(numbers) {
-        // Single loop: O(n)
+        // O(n)
         for (const number of numbers) {
             console.log(number);
         }
 
-        // Nested loops: O(n^2)
-        for (const first of numbers) {  // O(n)
-            for (const second of numbers) {  // O(n)
+        // O(n^2)
+        for (const first of numbers) { // O(n)
+            for (const second of numbers) { // O(n)
                 console.log(first + ", " + second);
             }
         }
@@ -95,20 +91,19 @@ What if a method has an independent single loop followed by a nested loop?
     ```
 
     </Tab>
-
     <Tab value="Java">
 
     ```java
     public class Main {
         public void log(int[] numbers) {
-            // Single loop: O(n)
+            // O(n)
             for (int number : numbers) {
                 System.out.println(number);
             }
 
-            // Nested loops: O(n^2)
-            for (int first : numbers) {  // O(n)
-                for (int second : numbers) {  // O(n)
+            // O(n^2)
+            for (int first : numbers) { // O(n)
+                for (int second : numbers) { // O(n)
                     System.out.println(first + ", " + second);
                 }
             }
@@ -119,31 +114,28 @@ What if a method has an independent single loop followed by a nested loop?
 </Tabs>
 
 ### Why O(n + n^2) Simplifies to O(n^2):
-1. Combining both parts gives:
-   `Total Operations = O(n + n^2)`
-2. **The Dominance Rule**:
-   - In Big O analysis, we only focus on the term that has the greatest impact on performance as `n` grows towards infinity.
-   - When `n = 1,000`:
-     - `n = 1,000`
-     - `n^2 = 1,000,000`
-   - The `n` term contributes only 0.1% of the total operations. Its effect is negligible compared to `n^2`.
-3. Therefore, we **drop the non-dominant term (`n`)** and simplify to **O(n^2)**.
+- The single loop runs in `O(n)`.
+- The nested loops run in `O(n^2)`.
+- So the runtime complexity of this method is `O(n + n^2)`.
+- The square of a number is always greater than the number itself, so in this expression, `n^2` always grows faster than `n`.
+- In Big O notation, we want an approximation of how the cost increases, not an exact value.
+- Therefore, we **drop n** and conclude that this method runs in **O(n^2)**.
 
 ---
 
-## 4. Extending to Three Nested Loops: O(n^3) (Cubic Time)
+## 4. Three Nested Loops: O(n^3) (Cubic Time)
 
-What if we nest three loops together?
+What if instead of that single loop, we had another nested loop inside?
 
 <Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
 
     ```javascript
     function log(numbers) {
-        // O(n^3) - Cubic Time
-        for (const first of numbers) {  // O(n)
-            for (const second of numbers) {  // O(n)
-                for (const third of numbers) {  // O(n)
+        // O(n^3)
+        for (const first of numbers) {
+            for (const second of numbers) {
+                for (const third of numbers) {
                     console.log(first + ", " + second + ", " + third);
                 }
             }
@@ -157,10 +149,10 @@ What if we nest three loops together?
     ```java
     public class Main {
         public void log(int[] numbers) {
-            // O(n^3) - Cubic Time
-            for (int first : numbers) {  // O(n)
-                for (int second : numbers) {  // O(n)
-                    for (int third : numbers) {  // O(n)
+            // O(n^3)
+            for (int first : numbers) {
+                for (int second : numbers) {
+                    for (int third : numbers) {
                         System.out.println(first + ", " + second + ", " + third);
                     }
                 }
@@ -173,9 +165,8 @@ What if we nest three loops together?
 </Tabs>
 
 ### Complexity Analysis:
-- Total operations: `n * n * n = n^3`.
-- Runtime complexity is **O(n^3)** (Cubic Time).
-- An O(n^3) algorithm scales even worse than O(n^2) and quickly becomes impractical for moderately large datasets.
+- The runtime complexity is now **O(n^3)** (Cubic Time).
+- As you can imagine, this algorithm gets **far slower** than an algorithm with `O(n^2)`.
 
 ---
 
@@ -184,8 +175,8 @@ What if we nest three loops together?
 | Metric | Details |
 | :--- | :--- |
 | **Complexity** | O(n^2) (Quadratic Time) |
-| **Growth Rate** | Steep curved parabola upward |
-| **Rule: Drop Non-Dominant Terms** | O(n + n^2) → O(n^2) |
-| **Three Nested Loops** | O(n * n * n) = O(n^3) (Cubic Time) |
-| **Scalability** | Poor for large datasets |
-| **Common Examples** | Nested loops, bubble sort, selection sort, finding all pairs in an array |
+| **Growth Rate** | Curved line curving upward; gets slower as `n` increases |
+| **Rule: Drop Non-Dominant Terms** | In O(n + n^2), we drop `n` because `n^2` grows faster → O(n^2) |
+| **Three Nested Loops** | O(n^3) (Cubic Time) — far slower than O(n^2) |
+| **Scalability** | Gets significantly slower as input size grows |
+| **Common Examples** | Printing all combinations/pairs in an array, bubble sort, selection sort |

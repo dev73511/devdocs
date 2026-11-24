@@ -9,7 +9,7 @@ description: O(n), pronounced "Big O of n", represents Linear Time complexity wh
 
 **O(n)**, pronounced **"Big O of n"**, represents **Linear Time** complexity.
 
-In an O(n) algorithm, the execution time (or number of operations) **grows linearly and in direct proportion to the size of the input dataset (n)**.
+In an O(n) algorithm, the execution time (or number of operations) **grows linearly and in direct proportion to the size of the input (n)**.
 
 - If the input has **1 item**, it runs **1 operation**.
 - If the input has **10 items**, it runs **10 operations**.
@@ -21,7 +21,7 @@ Unlike O(1) where input size is irrelevant, here the size of the input directly 
 
 ## 1. Basic Loop Example
 
-The most common example of O(n) is a loop that iterates over all elements of an array.
+Here we have an example with a loop iterating over an array:
 
 <Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
@@ -61,22 +61,29 @@ The most common example of O(n) is a loop that iterates over all elements of an 
     ```
 
     </Tab>
-    
 </Tabs>
 
-### Loop Type Does Not Matter
-Whether you write:
-- A traditional `for` loop
-- An enhanced `for-each` / `for...of` loop
-- A `while` loop or `do-while` loop
+### How it works:
+- We are iterating over all the items in this array and printing each item on the console.
+- This is where the size of the input matters:
+  - If we have a single item in the array, we have **1 print operation**.
+  - If we have 1 million items, we have **1 million print operations**.
+- So the cost of this algorithm grows linearly and in direct correlation to the size of the input.
+- We represent the runtime complexity of this method using **O(n)** , where **n** represents the size of the input.
 
-As long as the loop visits each item in the input of size `n` once, the runtime complexity remains **O(n)**.
+### Loop Type Does Not Matter:
+It doesn't matter what kind of loop we use to iterate over the array:
+- Traditional `for` loop
+- Enhanced `for-each` / `for...of` loop
+- `while` loop or `do-while` loop
+
+In all cases, we are still iterating over all the items in the array, so the runtime complexity is **O(n)**.
 
 ---
 
-## 2. Dropping Non-Dominant Constants (O(2 + n) → O(n))
+## 2. Adding Print Statements Before and After (Dropping Constants)
 
-What happens if we execute constant-time operations before or after the loop?
+Now, what if we have a print statement before and after our loop?
 
 <Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
@@ -114,18 +121,21 @@ What happens if we execute constant-time operations before or after the loop?
 </Tabs>
 
 ### Why O(1 + n + 1) Simplifies to O(n):
-1. **Calculating individual steps**:
-   `Total Operations = O(1) + O(n) + O(1) = O(2 + n)`
-2. **Dropping constants**:
-   - If `n = 1,000,000`, executing 2 additional single-step operations (1,000,002 vs 1,000,000) has virtually no noticeable impact.
-   - The growth curve is still dictated entirely by `n`.
-   - Therefore, we drop the constant `+2` and simplify the complexity to **O(n)**.
+- The single print statements run in constant time: `O(1)`.
+- The loop runs in linear time: `O(n)`.
+- So the runtime complexity is `O(1 + n + 1)`, which simplifies to `O(2 + n)`.
+- However, in Big O notation, we **drop these constants** because they don't really matter.
+- **Reason**: If our array has 1 million items, adding 2 extra operations doesn't really have a significant impact on the cost of our algorithm. The cost still increases linearly.
+- What matters is that the cost increases linearly and in direct proportion to the size of our input:
+  - If we have 5 items, we have 5 operations.
+  - If we have a million items, we have a million operations.
+- Therefore, we drop the constant **2** and simplify to **O(n)**.
 
 ---
 
-## 3. Multiple Consecutive Loops (O(2n) → O(n))
+## 3. Multiple Loops Over the Same Array (Dropping Multipliers)
 
-What happens if we run two separate loops iterating over the same input array?
+Now, what if we have two separate loops iterating over the same array?
 
 <Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
@@ -168,21 +178,19 @@ What happens if we run two separate loops iterating over the same input array?
 </Tabs>
 
 ### Why O(n + n) = O(2n) Simplifies to O(n):
-1. **Asumming the loops**:
-   `O(n) + O(n) = O(2n)`
-2. **Dropping constant multipliers**:
-   - Big O is not about exact instruction counts; it is an approximation of how the algorithm scales.
-   - Both `n` and `2n` represent a straight diagonal line — **linear growth**.
-   - As `n` grows very large, the constant multiplier `2` becomes insignificant in describing the rate of growth.
-   - Therefore, we drop the constant coefficient `2` to get **O(n)**.
+- The first loop runs in `O(n)` and the second loop runs in `O(n)`.
+- The combined runtime complexity is `O(n + n)` or `O(2n)`.
+- This is another example where we **drop the constant**, because all we need here is an approximation of the cost of the algorithm relative to its input size.
+- Both `n` and `2n` still represent **linear growth**.
+- Therefore, we drop the multiplier `2` and write **O(n)**.
 
 ---
 
-## 4. Multiple Different Inputs (O(n + m))
+## 4. Two Different Inputs (O(n + m))
 
-What if a method receives two distinct inputs with different sizes?
+What if this method had two parameters: an array of numbers and an array of names?
 
-<Tabs items={['JavaScript', 'Java',]}>
+<Tabs items={['JavaScript', 'Java']}>
     <Tab value="JavaScript">
 
     ```javascript
@@ -205,12 +213,12 @@ What if a method receives two distinct inputs with different sizes?
     ```java
     public class Main {
         public void log(int[] numbers, String[] names) {
-            // O(n) - where n is the length of numbers
+            // O(n) - where n is the size of numbers
             for (int number : numbers) {
                 System.out.println(number);
             }
 
-            // O(m) - where m is the length of names
+            // O(m) - where m is the size of names
             for (String name : names) {
                 System.out.println(name);
             }
@@ -222,13 +230,12 @@ What if a method receives two distinct inputs with different sizes?
 </Tabs>
 
 ### Distinguishing Between Inputs:
-- Here, we do not have a single array size. `numbers` might have 10 elements while `names` has 1,000,000 elements (or vice versa).
-- We use separate variables:
-  - Let `n` = length of `numbers`
-  - Let `m` = length of `names`
-- Total runtime complexity is **O(n + m)**.
-- And Once again we can simplify this to **O(n)**. Because the runtime of this method increases linearly.
-- Because both inputs grow independently and linearly, the overall relationship is linear with respect to both inputs.
+- Both loops run in linear time, but here we have **two inputs** (`numbers` and `names`), not just one.
+- We need to distinguish between the two input sizes:
+  - Let `n` be the size of the first input (`numbers`)
+  - Let `m` be the size of the second input (`names`)
+- The runtime complexity is **O(n + m)**.
+- And once again, we can simplify our understanding because the runtime of this method increases linearly with the size of each input.
 
 ---
 
@@ -237,8 +244,8 @@ What if a method receives two distinct inputs with different sizes?
 | Metric | Details |
 | :--- | :--- |
 | **Complexity** | O(n) (Linear Time) |
-| **Growth Rate** | Straight diagonal line (linear slope) |
-| **Rule 1: Drop Constants** | O(2 + n) → O(n) |
-| **Rule 2: Drop Multipliers** | O(2n) → O(n) |
-| **Rule 3: Multiple Inputs** | Two separate inputs of lengths `n` and `m` yield O(n + m) |
-| **Common Examples** | Iterating through an array, linear search, copying an array |
+| **Growth Rate** | Straight diagonal line (cost increases in direct proportion to input size) |
+| **Rule 1: Drop Constants** | O(2 + n) simplifies to O(n) |
+| **Rule 2: Drop Multipliers** | O(2n) simplifies to O(n) |
+| **Rule 3: Multiple Inputs** | Two separate inputs of sizes `n` and `m` yield O(n + m) |
+| **Common Examples** | Iterating over an array, linear search, copying an array |
